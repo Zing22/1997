@@ -1,0 +1,22 @@
+
+/* index */
+.row.title {
+    margin-top: 50px;
+}
+
+.title > .description {
+    position: relative;
+    font-size: 1.55em;
+    /*font-weight: 350;*/
+}
+
+.title .image {
+    border: 1px solid lightblue;
+}
+
+.sub-des {
+    font-size: 1.35em;
+    font-weight: 500;
+}
+
+/* index end */
