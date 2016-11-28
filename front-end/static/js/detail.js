@@ -1,13 +1,13 @@
 $(document).ready(function() {
-    $(".button.time:not(.active)").click(function() {
-        $(".button.time.active").addClass("black basic");
-        $(".button.time.active").removeClass("blue active");
-        $(this).removeClass("black basic");
-        $(this).addClass("active blue");
+    $("body").backstretch("./static/img/blackboard.jpg");
+    
+    $(".time:not(.active)").click(function() {
+        $(".time.active").removeClass("active");
+        $(this).addClass("active");
     });
 
-    $(".button.start").click(function() {
-        if (!$(".button.time.active").length) {
+    $(".start").click(function() {
+        if (!$(".time.active").length) {
             swal("", "请先选择一个时段", "info");
             return false;
         }
@@ -61,7 +61,7 @@ $(document).ready(function() {
                         $('.input.name').val(),
                         $('.input.address').val(),
                         $('.input.code').val(),
-                        ]);
+                    ]);
                 })
             }
         }).then(function(result) {
