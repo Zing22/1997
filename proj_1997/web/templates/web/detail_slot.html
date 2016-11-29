@@ -1,0 +1,42 @@
+{% extends "web/base.html" %}
+
+{% block title %}
+{{ t.name }} 的时段
+{% endblock %}
+
+{% block stylesheet %}
+<!-- <link rel="stylesheet" type="text/css" href="/static/css/index.css"> -->
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/detail_slot.js"></script>
+{% endblock %}
+
+
+{% block content %}
+<div class="ui container main">
+  <h1 class="ui header">{{ t.name }} 的时段</h1>
+  <input type="hidden" id="slot-id" value="{{ t.id }}">
+  <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+  <div class="ui grid slots">
+    {% for item in slots %}
+    <div class="ui row slot">
+      <div class="four wide column">
+        <div class="ui input fluid">
+          <input type="text" value="{{ item }}">
+        </div>
+      </div>
+      <div class="two wide column">
+        <button class="ui button red inverted delete">删除</button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="ui divider hidden"></div>
+  <button class="ui button green basic" id="new-slot">增加时段</button>
+
+  <div class="ui divider hidden"></div>
+  <button class="ui button green inverted huge right floated save">提交保存</button>
+</div>
+
+{% endblock %}

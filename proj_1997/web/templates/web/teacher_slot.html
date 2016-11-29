@@ -1,0 +1,34 @@
+{% extends "web/base.html" %}
+
+{% block title %}
+主页
+{% endblock %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/teacher_slot.js"></script>
+{% endblock %}
+
+
+{% block content %}
+<div class="ui container main">
+  <div class="ui input">
+    <input type="text" placeholder="Search..." class="search">
+  </div>
+  <button class="ui button icon search"><i class="icon search"></i></button>
+  <div class="ui relaxed divided list huge">
+    {% for item in ts %}
+    <div class="item ts">
+      <i class="large user middle aligned icon"></i>
+      <div class="content">
+        <a href="/slot/detail?id={{ item.id }}" class="header">{{ item.name }}</a>
+        <div class="description">{{ item.school }} {{ item.grade }} {{ item.college }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

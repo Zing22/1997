@@ -1,0 +1,25 @@
+{% extends "web/base.html" %}
+
+{% block title %}
+主页
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="/static/css/index.css">
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/index.js"></script>
+{% endblock %}
+
+
+{% block content %}
+<div class="ui container main">
+  {{ab.content }}
+
+  <div class="ui divider"></div>
+  {% autoescape off %}
+  {{ ab.content }}
+  {% endautoescape %}
+</div>
+{% endblock %}
