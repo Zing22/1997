@@ -29,6 +29,12 @@ urlpatterns = [
 
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 
+    url(r'^rsv_manage$', web_views.rsv_manage, name='rsv_manage'),
     url(r'^slot$', web_views.teacher_slot, name='slot'),
     url(r'^slot/detail$', web_views.detail_slot, name='detail_slot'),
+
+    url(r'^newrsv$', web_views.new_reservation, name='new_reservation'),
+
+    url(r'^scode$', web_views.send_code, name='send_code'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

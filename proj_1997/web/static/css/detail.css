@@ -26,6 +26,10 @@
     color: #D90429 !important;
 }
 
+.time {
+    cursor: pointer;
+}
+
 .time.active::before,
 .time.active::after {
     background: #D90429 !important;

@@ -45,7 +45,7 @@ class index_info(models.Model):
     def image_tag(self):
         return u'<img src="%s" width="200px" />' % self.image.url
 
-    image_tag.short_description = 'logo预览'
+    image_tag.short_description = 'logo 预览'
     image_tag.allow_tags = True
 
     subtitle = models.TextField(max_length=4096)
@@ -75,6 +75,13 @@ class slider(models.Model):
 
 class teacher(models.Model):
     name = models.CharField(max_length=265)
+
+    MALE = 0
+    FEMALE = 1
+    gender = models.BooleanField(choices=((MALE,'Male'), (FEMALE,'Female')), default=MALE)
+
+    subject = models.CharField(max_length=1024)
+
     school = models.CharField(max_length=512)
     college = models.CharField(max_length=512)
     grade = models.CharField(max_length=265)
@@ -83,13 +90,13 @@ class teacher(models.Model):
     avatar = models.ImageField(upload_to='avatar/', max_length=256)
     def avatar_tag(self):
         return u'<img src="%s" width="200px" />' % self.avatar.url
-    avatar_tag.short_description = 'slider 图片'
+    avatar_tag.short_description = '头像 图片'
     avatar_tag.allow_tags = True
 
     card = models.ImageField(upload_to='card/', max_length=256)
     def card_tag(self):
         return u'<img src="%s" width="200px" />' % self.card.url
-    card_tag.short_description = 'slider 图片'
+    card_tag.short_description = '校园卡 图片'
     card_tag.allow_tags = True
 
     description = RichTextUploadingField()
@@ -101,3 +108,36 @@ class teacher(models.Model):
 
     def get_time_slot(self):
         return json.loads(self.time_slot)
+
+    def __str__(self):
+        return self.name
+
+
+class reservation(models.Model):
+    name = models.CharField(max_length=265)
+    phone_num = models.CharField(max_length=32)
+    address = models.TextField(max_length=2048)
+
+    teacher = models.ForeignKey(teacher, models.CASCADE,
+                related_name="reservations");
+
+    ctime = models.DateTimeField(auto_now=True)
+
+    time_slot = models.TextField(max_length=4096, default='[]')
+
+    def set_time_slot(self, x):
+        self.time_slot = json.dumps(x)
+
+    def get_time_slot(self):
+        return json.loads(self.time_slot)
+
+    UNPROCESSED = 0
+    SUCCEED = 1
+    EXPIRED = 2
+    status = models.IntegerField(choices=((UNPROCESSED, '未处理'), 
+                                        (SUCCEED, '成功'),
+                                        (EXPIRED, '失效')),
+                                default=UNPROCESSED)
+
+    def __str__(self):
+        return "RSV <%s to %s>" % (self.name, self.teacher.name)

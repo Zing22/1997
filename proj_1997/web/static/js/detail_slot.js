@@ -1,13 +1,13 @@
 $(document).ready(function() {
   $("#new-slot").click(function() {
     let row = $('<div class="ui row slot">\
-      <div class="four wide column">\
+      <div class="five wide column">\
       <div class="ui input fluid">\
       <input type="text">\
       </div>\
       </div>\
-      <div class="two wide column">\
-      <button class="ui button red inverted delete">删除</button>\
+      <div class="four wide column">\
+      <button class="ui button red basic delete">删除</button>\
       </div>\
       </div>');
     row.find("button.delete").click(function() {

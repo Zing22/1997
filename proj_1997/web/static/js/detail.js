@@ -1,72 +1,146 @@
 $(document).ready(function() {
-    $("body").backstretch("./static/img/blackboard.jpg");
-    
-    $(".time").click(function() {
-        // $(".time.active").removeClass("active");
-        $(this).toggleClass("active");
+  $("body").backstretch("./static/img/blackboard.jpg");
+
+  $(".time").click(function() {
+    // $(".time.active").removeClass("active");
+    $(this).toggleClass("active");
+  });
+
+  let set_warning_msg = function(msgs) {
+    $(".warning > .list").empty("li");
+    if (!msgs.length) {
+      $("form.reservation").removeClass("warning");
+      return;
+    }
+    $("form.reservation").addClass("warning");
+    $(msgs).each(function(n, el) {
+      $(".warning > .list").append("<li>" + el + "</li>");
+    });
+  }
+
+  let check_phone_num = function(num) {
+    let partten = /^1[0-9]\d{9}$/;
+    let fl = false;
+    if (partten.test(num)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  let count_down_btn = function(t) {
+    if (t === 0) {
+      $("#send-code").removeClass("disabled");
+      $("#send-code").text("发送验证码");
+    } else {
+      $("#send-code").text(t + "秒后重新发送");
+      setTimeout(function() {
+        count_down_btn(t - 1);
+      }, 1000);
+    }
+  }
+
+  let send_msg_to = function(phone_num) {
+    $("#send-code").addClass("disabled");
+
+    $.ajax({
+      url: "/scode",
+      type: "POST",
+      dataType: "json",
+      contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+      cache: false,
+      data: {
+        "phone_num": phone_num,
+      },
+      success: function(data) {
+        if(data.code) {
+          count_down_btn(120 - data.delta);
+        } else {
+          count_down_btn(120);
+        }
+      }
+    });
+  }
+
+  let check_form_valid = function() {
+    let msgs = [],
+    phone_num = $("input[name='phone-num']").val();
+    if(!$(".time.active").length) {
+      msgs.push("请选择至少一个时段");
+    }
+    if (!phone_num.length) {
+      msgs.push("请填写 手机号");
+    } else if (!check_phone_num(phone_num)) {
+      msgs.push("手机号格式不正确，应为11位数字");
+    }
+    if (!$("input[name='name']").val().length) {
+      msgs.push("请填写 您的姓名");
+    }
+    if (!$("textarea[name='address']").val().length) {
+      msgs.push("请填写 辅导地址");
+    }
+    if (!$("input[name='code']").val().length) {
+      msgs.push("请填写 手机验证码");
+    }
+    set_warning_msg(msgs);
+
+    return msgs.length === 0;
+  }
+
+  $("#send-code").click(function() {
+    let msgs = [],
+    phone_num = $("input[name='phone-num']").val();
+    console.log(!phone_num.length);
+    if (!phone_num.length) {
+      msgs.push("请填写手机号");
+    } else if (!check_phone_num(phone_num)) {
+      msgs.push("手机号格式不正确，应为11位数字");
+    } else {
+      send_msg_to(phone_num);
+    }
+
+    set_warning_msg(msgs);
+  });
+
+  $("form.reservation input, form.reservation textarea").focusout(check_form_valid);
+
+  let send_reservation = function() {
+    let time_slot = [];
+    $(".time.active").each(function(n, el) {
+      time_slot.push($(el).text());
     });
 
-    $(".start").click(function() {
-        if (!$(".time.active").length) {
-            swal("", "请先选择一个时段", "info");
-            return false;
+    $.ajax({
+      url: "/newrsv",
+      type: "POST",
+      dataType: "json",
+      contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+      cache: false,
+      data: {
+        "id": $("input[name='teacher-id']").val(),
+        "phone_num": $("input[name='phone-num']").val(),
+        "name": $("input[name='name']").val(),
+        "address": $("textarea[name='address']").val(),
+        "code": $("input[name='code']").val(),
+        "time_slot": JSON.stringify(time_slot),
+      },
+      success: function(data) {
+        if(data.code) {
+          set_warning_msg(data.msgs);
+        } else {
+          swal("预约成功", "我们的工作人员会尽快联系您，请保持电话畅通", "success");
         }
+      },
+      error: function() {
+        swal("Oh...", "", "error");
+      }
+    });
+  }
 
+  $("#send-rsv").click(function() {
+    if(check_form_valid()) {
+      send_reservation();
+    }
+  });
 
-        swal({
-            html: '<div class="ui grid">\
-            <div class="ui row">\
-            <div class="column fluid"><small>新用户需要填写姓名和地址哦，老用户我们已经保存了地址，不需更改就直接验证就好啦~</small></div>\
-            </div>\
-            <div class="ui row">\
-            <div class="column four wide">手机号码</div>\
-            <div class="column seven wide">\
-            <div class="ui input mini fluid phone">\
-            <input type="text">\
-            </div>\
-            </div>\
-            <div class="column four wide">\
-            <a href="#">发送验证码</a>\
-            </div>\
-            </div>\
-            <div class="ui row">\
-            <div class="column four wide">真实姓名</div>\
-            <div class="column seven wide">\
-            <div class="ui input mini fluid name">\
-            <input type="text">\
-            </div>\
-            </div>\
-            </div>\
-            <div class="ui row">\
-            <div class="column four wide">辅导地址</div>\
-            <div class="column eleven wide">\
-            <div class="ui input mini fluid address">\
-            <input type="text">\
-            </div>\
-            </div>\
-            </div>\
-            <div class="ui row">\
-            <div class="column four wide">验证码</div>\
-            <div class="column six wide">\
-            <div class="ui input mini fluid code">\
-            <input type="text">\
-            </div>\
-            </div>\
-            </div>\
-            </div>',
-            preConfirm: function() {
-                return new Promise(function(resolve) {
-                    resolve([
-                        $('.input.phone').val(),
-                        $('.input.name').val(),
-                        $('.input.address').val(),
-                        $('.input.code').val(),
-                    ]);
-                })
-            }
-        }).then(function(result) {
-            // swal(JSON.stringify(result));
-            swal("预定成功", "工作人员会尽快联系您", "success");
-        }).catch(swal.noop)
-    })
-})
+});

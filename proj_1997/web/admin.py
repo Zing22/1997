@@ -3,6 +3,10 @@ from django.contrib import admin
 # Register your models here.
 from . import models
 
+admin.site.site_header = "1997 administration"
+admin.site.site_title = "1997 site admin"
+
+
 admin.site.register(models.about_us)
 
 class index_info_admin(admin.ModelAdmin):
@@ -21,10 +25,16 @@ class slider_admin(admin.ModelAdmin):
 admin.site.register(models.slider, slider_admin)
 
 class teacher_admin(admin.ModelAdmin):
-    list_display= ('name', 'avatar_tag', 'school', 'college', 'grade', 'order')
+    search_fields = ('name', 'subject', 'school', 'college', 'grade', 'order')
+    list_display= ('name', 'avatar_tag', 'subject', 'school', 'college', 'grade', 'order')
     readonly_fields = ('avatar_tag', 'card_tag')
     # fields = ('image', 'avatar_tag', 'card_tag' 'description', 'order')
     ordering = ('order', )
-    exclude = ('time_slot',)
+    readonly_fields = ('time_slot', )
 
 admin.site.register(models.teacher, teacher_admin)
+
+class reservation_admin(admin.ModelAdmin):
+    readonly_fields = ('time_slot', )
+
+admin.site.register(models.reservation, reservation_admin)
