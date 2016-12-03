@@ -38,3 +38,7 @@
 .segment.cv {
     font-size: 1.3em;
 }
+
+.grid > .row.reservation {
+    display: none;
+}

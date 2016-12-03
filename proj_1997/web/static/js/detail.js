@@ -6,6 +6,14 @@ $(document).ready(function() {
     $(this).toggleClass("active");
   });
 
+  $("a.start").click(function() {
+    if(!$(".time.active").length) {
+      swal("请选择至少一个时段", "", "info");
+      return false;
+    }
+    $(".row.reservation").show();
+  });
+
   let set_warning_msg = function(msgs) {
     $(".warning > .list").empty("li");
     if (!msgs.length) {
