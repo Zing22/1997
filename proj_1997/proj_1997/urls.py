@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from web import views as web_views
 
 urlpatterns = [
+    url(r'^admin_tools/', include('admin_tools.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', web_views.index, name='index'),
     url(r'^detail$', web_views.detail, name='detail'),

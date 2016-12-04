@@ -36,11 +36,22 @@ class ListField(models.TextField):
         return self.get_db_prep_value(value)
 
 class about_us(models.Model):
-    content = RichTextUploadingField()
+    class Meta:
+        verbose_name = '关于我们'
+        verbose_name_plural = '关于我们'
+
+    content = RichTextUploadingField(verbose_name = '富文本编辑')
+
+    def __str__(self):
+        return '点击修改'
 
 
 class index_info(models.Model):
-    image = models.ImageField(upload_to='index/', max_length=256)
+    class Meta:
+        verbose_name = '首页信息'
+        verbose_name_plural = '首页信息'
+
+    image = models.ImageField(verbose_name = '首页logo', upload_to='index/', max_length=256)
 
     def image_tag(self):
         return u'<img src="%s" width="200px" />' % self.image.url
@@ -48,60 +59,69 @@ class index_info(models.Model):
     image_tag.short_description = 'logo 预览'
     image_tag.allow_tags = True
 
-    subtitle = models.TextField(max_length=4096)
+    subtitle = models.TextField(verbose_name = 'logo下文字', max_length=4096)
 
-    slider_delay = models.IntegerField()
+    slider_delay = models.IntegerField(verbose_name = '滚动间隔时间(单位为毫秒)')
 
     def __str__(self):
-        return "index_info <id: %d>" % self.id
+        return "首页信息 <id: %d>" % self.id
 
 
 class slider(models.Model):
-    image = models.ImageField(upload_to='slider/', max_length=256)
+    class Meta:
+        verbose_name = '首页滚动图'
+        verbose_name_plural = '首页滚动图'
+
+    image = models.ImageField(verbose_name = '轮播图片', upload_to='slider/', max_length=256)
 
     def image_tag(self):
         return u'<img src="%s" width="200px" />' % self.image.url
 
-    image_tag.short_description = 'slider 图片'
+    image_tag.short_description = '轮播图片预览'
     image_tag.allow_tags = True
 
-    description = models.TextField(max_length=4096)
+    description = models.TextField(verbose_name = '相关描述', max_length=4096)
 
-    order = models.PositiveIntegerField()
+    order = models.PositiveIntegerField(verbose_name = '轮播顺序(由0开始)')
 
     def __str__(self):
-        return "slider <id: %d>" % self.id
+        return "首页滚动图 <id: %d>" % self.id
 
 
 class teacher(models.Model):
-    name = models.CharField(max_length=265)
+    class Meta:
+        verbose_name = '教师'
+        verbose_name_plural = '教师'
+
+
+    name = models.CharField(verbose_name = '姓名', max_length=265)
 
     MALE = 0
     FEMALE = 1
-    gender = models.BooleanField(choices=((MALE,'Male'), (FEMALE,'Female')), default=MALE)
+    gender = models.BooleanField(verbose_name = '性别', choices=((MALE,'Male'), (FEMALE,'Female')), default=MALE)
 
-    subject = models.CharField(max_length=1024)
+    subject = models.CharField(verbose_name = '科目（空格分隔）', max_length=1024)
 
-    school = models.CharField(max_length=512)
-    college = models.CharField(max_length=512)
-    grade = models.CharField(max_length=265)
-    order = models.PositiveIntegerField(default=0)
+    school = models.CharField(verbose_name = '学校', max_length=512)
+    college = models.CharField(verbose_name = '专业', max_length=512)
+    grade = models.CharField(verbose_name = '年级', max_length=265)
+    order = models.PositiveIntegerField(verbose_name = '顺序(由0开始)', default=0)
 
-    avatar = models.ImageField(upload_to='avatar/', max_length=256)
+    avatar = models.ImageField(verbose_name = '头像图片', upload_to='avatar/', max_length=256)
     def avatar_tag(self):
         return u'<img src="%s" width="200px" />' % self.avatar.url
-    avatar_tag.short_description = '头像 图片'
+    avatar_tag.short_description = '头像图片预览'
     avatar_tag.allow_tags = True
 
-    card = models.ImageField(upload_to='card/', max_length=256)
+    card = models.ImageField(verbose_name = '校园卡图片', upload_to='card/', max_length=256)
     def card_tag(self):
         return u'<img src="%s" width="200px" />' % self.card.url
-    card_tag.short_description = '校园卡 图片'
+    card_tag.short_description = '校园卡图片预览'
     card_tag.allow_tags = True
 
-    description = RichTextUploadingField()
+    description = RichTextUploadingField(verbose_name = '个人简介')
 
-    time_slot = models.TextField(max_length=4096, default='[]')
+    time_slot = models.TextField(verbose_name = '时段（不在这里修改）', max_length=4096, default='[]')
 
     def set_time_slot(self, x):
         self.time_slot = json.dumps(x)
@@ -114,16 +134,20 @@ class teacher(models.Model):
 
 
 class reservation(models.Model):
-    name = models.CharField(max_length=265)
-    phone_num = models.CharField(max_length=32)
-    address = models.TextField(max_length=2048)
+    class Meta:
+        verbose_name = '家教预约'
+        verbose_name_plural = '家教预约'
 
-    teacher = models.ForeignKey(teacher, models.CASCADE,
+    name = models.CharField(verbose_name = '预约人', max_length=265)
+    phone_num = models.CharField(verbose_name = '预约人电话', max_length=32)
+    address = models.TextField(verbose_name = '预约人地址', max_length=2048)
+
+    teacher = models.ForeignKey(teacher, models.CASCADE, verbose_name = '预约教师', 
                 related_name="reservations");
 
-    ctime = models.DateTimeField(auto_now=True)
+    ctime = models.DateTimeField(verbose_name = '修改时间', auto_now=True)
 
-    time_slot = models.TextField(max_length=4096, default='[]')
+    time_slot = models.TextField(verbose_name = '预约时段', max_length=4096, default='[]')
 
     def set_time_slot(self, x):
         self.time_slot = json.dumps(x)
@@ -134,10 +158,10 @@ class reservation(models.Model):
     UNPROCESSED = 0
     SUCCEED = 1
     EXPIRED = 2
-    status = models.IntegerField(choices=((UNPROCESSED, '未处理'), 
+    status = models.IntegerField(verbose_name = '状态', choices=((UNPROCESSED, '未处理'), 
                                         (SUCCEED, '成功'),
                                         (EXPIRED, '失效')),
                                 default=UNPROCESSED)
 
     def __str__(self):
-        return "RSV <%s to %s>" % (self.name, self.teacher.name)
+        return "家教预约 <预约人：%s 预约教师：%s>" % (self.name, self.teacher.name)
