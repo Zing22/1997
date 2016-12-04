@@ -14,25 +14,25 @@
 
 
 {% block content %}
-<div class="ui container main">
+<div class="ui container main fluid">
   <img class="ui image centered" src="{{info.header.image.url}}">
-  <div class="sub-title">{{info.header.subtitle}}</div>
+  <div class="sub-title">{{info.header.subtitle | linebreaksbr}}</div>
 </div>
 
 <div class="ui divider horizontal">
   <i class="book icon red"></i>
 </div>
 
-<div class="ui container">
+<div class="ui container fluid sd">
   <div class="slider">
     <div class="sub-des"></div>
 
     <input type="hidden" name="delay" value="{{info.header.slider_delay}}">
     {% for item in info.sliders %}
-      <div class="item">
-        <img src="{{item.image.url}}">
-        <div class="content">{{item.description}}</div>
-      </div>
+    <div class="item">
+      <img src="{{item.image.url}}">
+      <div class="content">{{item.description | linebreaksbr}}</div>
+    </div>
     {% endfor %}
   </div>
 

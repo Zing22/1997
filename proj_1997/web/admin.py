@@ -3,14 +3,14 @@ from django.contrib import admin
 # Register your models here.
 from . import models
 
-admin.site.site_header = "1997 administration"
-admin.site.site_title = "1997 site admin"
+admin.site.site_header = "1997 站点管理"
+admin.site.site_title = "1997 站点管理"
 
 
 admin.site.register(models.about_us)
 
 class index_info_admin(admin.ModelAdmin):
-    list_display= ('id', 'image_tag', 'subtitle', 'slider_delay')
+    list_display= ('image_tag', 'subtitle', 'slider_delay')
     readonly_fields = ('image_tag',)
     fields = ('image', 'image_tag', 'subtitle', 'slider_delay')
 

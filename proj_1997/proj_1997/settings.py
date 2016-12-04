@@ -156,3 +156,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
+
+# admin tools
+
+ADMIN_TOOLS_MENU = 'proj_1997.menu.CustomMenu'
+ADMIN_TOOLS_INDEX_DASHBOARD = 'proj_1997.dashboard.CustomIndexDashboard'
+ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'proj_1997.dashboard.CustomAppIndexDashboard'
+
+ADMIN_TOOLS_THEMING_CSS = 'css/theming.css'
