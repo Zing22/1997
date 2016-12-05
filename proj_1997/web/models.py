@@ -96,8 +96,8 @@ class teacher(models.Model):
 
     name = models.CharField(verbose_name = '姓名', max_length=265)
 
-    MALE = 0
-    FEMALE = 1
+    MALE = False
+    FEMALE = True
     gender = models.BooleanField(verbose_name = '性别', choices=((MALE,'Male'), (FEMALE,'Female')), default=MALE)
 
     subject = models.CharField(verbose_name = '科目（空格分隔）', max_length=1024)

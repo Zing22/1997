@@ -9,22 +9,17 @@
   <link rel="stylesheet" type="text/css" href="/static/css/semantic.min.css">
   <link rel="stylesheet" type="text/css" href="/static/css/components/dimmer.min.css">
   <link rel="stylesheet" type="text/css" href="/static/css/link_component.css">
-  <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/m_base.css">
 
   {% block stylesheet %}{% endblock %}
-  <link rel="stylesheet" type="text/css" href="/static/css/index.css">
 
 </head>
 <body>
-  <div class="ui huge menu borderless base">
-    <div class="ui container">
-      <a class="item logo" href="/">
-        <img src="/static/img/logo.png">　首页
-      </a>
-      <a class="item" href="/teachers">家教</a>
-      <a class="item" href="#">活动</a>
-      <a class="item" href="/about">关于我们</a>
-    </div>
+  <div class="ui fluid four item doubling huge menu borderless base">
+      <a class="item index" href="/m/">首页</a>
+      <a class="item teachers" href="/m/teachers">家教</a>
+      <a class="item activity" href="#">活动</a>
+      <a class="item abour" href="/m/about">关于</a>
   </div>
   {% block content %}
   empty body
@@ -42,8 +37,6 @@
   <script type="text/javascript">
     $.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});
   </script>
-  <script>if (window.location.hostname === "127.0.0.1") {
-    document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
-    }</script>
+  <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 </body>
 </html>

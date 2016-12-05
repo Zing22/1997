@@ -48,7 +48,7 @@
           <tbody>
             {% for item in info %}
             <tr class="teacher">
-              <td class="name"><a href="/slot/detail?id={{item.ts.id}}">{{ item.ts.name }}</a></td>
+              <td class="name"><a href="/admin/d?id={{item.ts.id}}">{{ item.ts.name }}</a></td>
               <td class="slots">
                 {% for slot in item.slots %}
                 {{ slot }}  

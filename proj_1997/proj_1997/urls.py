@@ -37,4 +37,9 @@ urlpatterns = [
     url(r'^newrsv$', web_views.new_reservation, name='new_reservation'),
     url(r'^scode$', web_views.send_code, name='send_code'),
 
+    # mobile pages
+    url(r'^m/detail$', web_views.m_detail, name='m_detail'),
+    url(r'^m/teachers$', web_views.m_teachers, name='m_teachers'),
+    url(r'^m/$', web_views.m_index, name='m_index'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

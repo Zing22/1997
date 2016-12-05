@@ -22,7 +22,7 @@ $(document).ready(function() {
 
   let send_modi = function(qqq) {
     $.ajax({
-      url: "/slot/detail",
+      url: "/admin/d",
       type: "POST",
       dataType: "json",
       contentType: 'application/x-www-form-urlencoded; charset=utf-8',

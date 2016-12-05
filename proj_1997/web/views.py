@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from web.models import *
 from .database_lib import *
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 import json
 # Create your views here.
 
@@ -19,7 +20,41 @@ def detail(request):
 
 
 def teachers(request):
-    return render(request, "web/teachers.html")
+    ts = teacher.objects.all()
+    info = [{'ts': t, 'slots': t.get_time_slot()} for t in ts]
+    gender = request.GET.get('gender')
+    subject = request.GET.get('subject')
+
+    gender = None if gender == 'None' else gender
+    subject = None if subject == 'None' else subject
+
+    if gender:
+        g = 0 if gender=='male' else 1
+        info = [x for x in info if (lambda y: y['ts'].gender == g)(x)]
+
+    if subject:
+        info = [x for x in info if (lambda y: y['ts'].subject.find(subject) != -1)(x)]
+
+
+    paginator = Paginator(info, 10)
+
+    page = request.GET.get('page')
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        page = 1
+        contacts = paginator.page(1)
+    except EmptyPage:
+        page = paginator.num_pages
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request, "web/teachers.html", {'info': contacts,
+                                'gender': gender,
+                                'subject': subject,
+                                'now_page': page,
+                                'page_nums': range(1, paginator.num_pages+1) })
 
 
 def about(request):
@@ -94,3 +129,55 @@ def send_code(request, method=['POST']):
 
     request.session["last-time"] = datetime.now().strftime("%Y %m %d %H %M %S")
     return JsonResponse({"code": 0})
+
+
+#### mobile pages
+def m_index(request):
+    return render(request, "web/m_index.html", {'info': get_index_info()})
+
+
+def m_detail(request):
+    teacher = get_teacher_of(request.GET.get('id'))
+    # print(type())
+    # teacher.settime_slot(['周六下午'])
+    # teacher.save()
+    return render(request, "web/m_detail.html", {'teacher': teacher,
+                            'slots': teacher.get_time_slot()})
+
+
+def m_teachers(request):
+    ts = teacher.objects.all()
+    info = [{'ts': t, 'slots': t.get_time_slot()} for t in ts]
+    gender = request.GET.get('gender')
+    subject = request.GET.get('subject')
+
+    gender = None if gender == 'None' else gender
+    subject = None if subject == 'None' else subject
+
+    if gender:
+        g = 0 if gender=='male' else 1
+        info = [x for x in info if (lambda y: y['ts'].gender == g)(x)]
+
+    if subject:
+        info = [x for x in info if (lambda y: y['ts'].subject.find(subject) != -1)(x)]
+
+
+    paginator = Paginator(info, 10)
+
+    page = request.GET.get('page')
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        page = 1
+        contacts = paginator.page(1)
+    except EmptyPage:
+        page = paginator.num_pages
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request, "web/m_teachers.html", {'info': contacts,
+                                'gender': gender,
+                                'subject': subject,
+                                'now_page': page,
+                                'page_nums': range(1, paginator.num_pages+1) })
