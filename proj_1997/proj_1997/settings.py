@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'o^r3estyi_iamni$ijt$%pc@+xod$z2tn$ol8=$ygw*-5g8$ti'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True 
 
 ALLOWED_HOSTS = ['*']
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'web',
     'ckeditor',
     'ckeditor_uploader',
+    'django_mobile',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -58,6 +59,9 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'django_mobile.middleware.MobileDetectionMiddleware',
+    'django_mobile.middleware.SetFlavourMiddleware',
+    'proj_1997.middleware.UserBasedExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'proj_1997.urls'
@@ -73,9 +77,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_mobile.context_processors.flavour',
             ],
             'loaders': [
                 'admin_tools.template_loaders.Loader',
+                'django_mobile.loader.Loader',
                 'django.template.loaders.filesystem.Loader',
                 'django.template.loaders.app_directories.Loader',
             ]
@@ -164,3 +170,6 @@ ADMIN_TOOLS_INDEX_DASHBOARD = 'proj_1997.dashboard.CustomIndexDashboard'
 ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'proj_1997.dashboard.CustomAppIndexDashboard'
 
 ADMIN_TOOLS_THEMING_CSS = 'css/theming.css'
+
+# debug 模式可见性
+INTERNAL_IPS = [] # IP存在于此即可访问 or 登录了管理员账号

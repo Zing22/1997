@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', web_views.index, name='index'),
     url(r'^detail$', web_views.detail, name='detail'),
+    url(r'^activity$', web_views.activity, name='activity'),
     url(r'^teachers$', web_views.teachers, name='teachers'),
     url(r'^about$', web_views.about, name='about'),
 
@@ -40,6 +41,8 @@ urlpatterns = [
 
     # mobile pages
     url(r'^m/detail$', web_views.m_detail, name='m_detail'),
+    url(r'^m/activity$', web_views.m_activity, name='m_activity'),
+    url(r'^m/about$', web_views.m_about, name='m_about'),
     url(r'^m/teachers$', web_views.m_teachers, name='m_teachers'),
     url(r'^m/$', web_views.m_index, name='m_index'),
 

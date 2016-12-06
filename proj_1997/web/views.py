@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from web.models import *
 from .database_lib import *
@@ -9,9 +9,14 @@ import json
 # Create your views here.
 
 def index(request):
+    if request.flavour == 'mobile':
+        return redirect(m_index)
     return render(request, "web/index.html", {'info': get_index_info()})
 
+
 def detail(request):
+    if request.flavour == 'mobile':
+        return redirect(m_detail)
     teacher = get_teacher_of(request.GET.get('id'))
     # print(type())
     # teacher.settime_slot(['周六下午'])
@@ -21,6 +26,8 @@ def detail(request):
 
 
 def teachers(request):
+    if request.flavour == 'mobile':
+        return redirect(m_teachers)
     ts = teacher.objects.all()
     info = [{'ts': t, 'slots': t.get_time_slot()} for t in ts]
     gender = request.GET.get('gender')
@@ -59,7 +66,15 @@ def teachers(request):
 
 
 def about(request):
+    if request.flavour == 'mobile':
+        return redirect(m_about)
     return render(request, "web/about.html", {'ab': about_us.objects.all()[0]})
+
+
+def activity(request):
+    if request.flavour == 'mobile':
+        return redirect(m_activity)
+    return render(request, "web/activity.html")
 
 
 @login_required()
@@ -135,10 +150,14 @@ def send_code(request, method=['POST']):
 
 #### mobile pages
 def m_index(request):
+    if request.flavour == 'full':
+        return redirect(index)
     return render(request, "web/m_index.html", {'info': get_index_info()})
 
 
 def m_detail(request):
+    if request.flavour == 'full':
+        return redirect(detail)
     teacher = get_teacher_of(request.GET.get('id'))
     # print(type())
     # teacher.settime_slot(['周六下午'])
@@ -148,6 +167,8 @@ def m_detail(request):
 
 
 def m_teachers(request):
+    if request.flavour == 'full':
+        return redirect(teacher)
     ts = teacher.objects.all()
     info = [{'ts': t, 'slots': t.get_time_slot()} for t in ts]
     gender = request.GET.get('gender')
@@ -183,6 +204,20 @@ def m_teachers(request):
                                 'subject': subject,
                                 'now_page': page,
                                 'page_nums': range(1, paginator.num_pages+1) })
+
+
+def m_about(request):
+    if request.flavour == 'full':
+        return redirect(about)
+    return render(request, "web/m_about.html", {'ab': about_us.objects.all()[0]})
+
+
+def m_activity(request):
+    if request.flavour == 'full':
+        return redirect(activity)
+    return render(request, "web/m_activity.html")
+
+
 
 
 def change_rsv_status(request, method=['POST']):
