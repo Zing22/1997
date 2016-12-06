@@ -1,5 +1,7 @@
 {% extends "web/base.html" %}
 
+{% load tz %}
+
 {% block title %}
 预约管理
 {% endblock %}
@@ -71,7 +73,11 @@
                 <td class="guest-name">{{ item.rsv.name }}</td>
                 <td class="guest-phone-num">{{ item.rsv.phone_num }}</td>
                 <td class="guest-address">{{ item.rsv.address }}</td>
-                <td class="ctime">{{ item.rsv.ctime }}</td>
+                <td class="ctime">
+                  {% timezone "Asia/Shanghai" %}
+                  {{ item.rsv.ctime }}
+                  {% endtimezone %}
+                </td>
                 <td class="status">
                   {% if item.rsv.status == 0 %}
                   未处理
