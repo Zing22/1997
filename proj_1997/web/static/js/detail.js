@@ -61,8 +61,10 @@ $(document).ready(function() {
         "phone_num": phone_num,
       },
       success: function(data) {
-        if(data.code) {
+        if(data.code === 202) {
           count_down_btn(120 - data.delta);
+        } else if(data.code) {
+          swal('','发送验证码失败，请稍后再试。','info');
         } else {
           count_down_btn(120);
         }

@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 
     url(r'^admin/r$', web_views.rsv_manage, name='rsv_manage'),
+    url(r'^admin/r/status$', web_views.change_rsv_status, name='change_rsv_status'),
     url(r'^admin/t$', web_views.teacher_slot, name='slot'),
     url(r'^admin/d$', web_views.detail_slot, name='detail_slot'),
 

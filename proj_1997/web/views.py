@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from web.models import *
 from .database_lib import *
+from .send_msg import *
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 import json
@@ -120,15 +121,16 @@ def send_code(request, method=['POST']):
         delta = datetime.now() - datetime.strptime(request.session["last-time"],
                                     "%Y %m %d %H %M %S")
         if delta.seconds < 120:
-            return JsonResponse({"code": 1, "delta": delta.seconds})
+            return JsonResponse({"code": 202, "delta": delta.seconds})
     # do sending things
     phone_num = request.POST.get("phone_num")
     c = str(random.randint(100000, 999999))
     request.session[phone_num] = c
+    code, rsp = send_msg(c, phone_num)
     print(c)
 
     request.session["last-time"] = datetime.now().strftime("%Y %m %d %H %M %S")
-    return JsonResponse({"code": 0})
+    return JsonResponse({"code": code, "ret": rsp})
 
 
 #### mobile pages
@@ -181,3 +183,10 @@ def m_teachers(request):
                                 'subject': subject,
                                 'now_page': page,
                                 'page_nums': range(1, paginator.num_pages+1) })
+
+
+def change_rsv_status(request, method=['POST']):
+    _id = request.POST.get('id')
+    status = request.POST.get('status')
+    set_rsv_status(_id, status)
+    return JsonResponse({'code': 0})

@@ -165,3 +165,15 @@ class reservation(models.Model):
 
     def __str__(self):
         return "家教预约 <预约人：%s 预约教师：%s>" % (self.name, self.teacher.name)
+
+
+class system_setting(models.Model):
+    class Meta:
+        verbose_name = '系统设置（谨慎操作）'
+        verbose_name_plural = '系统设置（谨慎操作）'
+
+    msg_account = models.CharField(verbose_name = '信息平台账号', max_length=64)
+    msg_pwd = models.CharField(verbose_name = '信息平台密码', max_length=32)
+
+    def __str__(self):
+        return '相关设置详情 (只能有一条)'

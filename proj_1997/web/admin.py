@@ -38,3 +38,6 @@ class reservation_admin(admin.ModelAdmin):
     readonly_fields = ('time_slot', )
 
 admin.site.register(models.reservation, reservation_admin)
+
+
+admin.site.register(models.system_setting)
