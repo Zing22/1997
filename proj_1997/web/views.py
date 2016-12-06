@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from web.models import *
 from .database_lib import *
 from .send_msg import *
@@ -16,7 +16,8 @@ def index(request):
 
 def detail(request):
     if request.flavour == 'mobile':
-        return redirect(m_detail)
+        return HttpResponseRedirect('/m/detail?id=%s' % request.GET.get('id'))
+        # return redirect(m_detail)
     teacher = get_teacher_of(request.GET.get('id'))
     # print(type())
     # teacher.settime_slot(['周六下午'])
@@ -157,7 +158,8 @@ def m_index(request):
 
 def m_detail(request):
     if request.flavour == 'full':
-        return redirect(detail)
+        return HttpResponseRedirect('/detail?id=%s' % request.GET.get('id'))
+        # return redirect('/detail')
     teacher = get_teacher_of(request.GET.get('id'))
     # print(type())
     # teacher.settime_slot(['周六下午'])
