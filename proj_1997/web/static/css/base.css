@@ -11,3 +11,7 @@ html, body {
 .base.menu .item:not(.logo):hover {
     border-bottom: 3px solid #D90429;
 }
+
+.ui.message .list:not(.ui) li:before {
+    content: '*' !important;
+}

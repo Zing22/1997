@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $(".base.menu .item.index").addClass("now");
-    let get_sliders = function(selector) {
-        let result = [];
+    var get_sliders = function(selector) {
+        var result = [];
         $(selector).find(".item").each(function(n, el) {
             result.push({
                 image: $(el).find("img").attr("src"),
@@ -12,9 +12,9 @@ $(document).ready(function() {
         return result;
     }
 
-    let start_slider = function(selector, sliders) {
-        let delay = $(selector).find("input[name='delay']").val();
-        let idx = 0;
+    var start_slider = function(selector, sliders) {
+        var delay = $(selector).find("input[name='delay']").val();
+        var idx = 0;
         $(selector).backstretch(sliders[idx].image);
         $(selector).find(".sub-des").text(sliders[idx].content);
 
@@ -30,13 +30,13 @@ $(document).ready(function() {
         }, delay);
     }
 
-    let reset_height_div = function(selector, w_div_h) {
-        let width = $(selector).width();
+    var reset_height_div = function(selector, w_div_h) {
+        var width = $(selector).width();
         $(selector).height(width / w_div_h);
     }
 
     reset_height_div('div.slider', 16/9);
-    let sliders = get_sliders("div.slider");
+    var sliders = get_sliders("div.slider");
     // console.log(sliders);
     start_slider("div.slider", sliders);
 

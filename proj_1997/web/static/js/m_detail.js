@@ -15,7 +15,7 @@ $(document).ready(function() {
     $(".row.reservation").show();
   });
 
-  let set_warning_msg = function(msgs) {
+  var set_warning_msg = function(msgs) {
     $(".warning > .list").empty("li");
     if (!msgs.length) {
       $("form.reservation").removeClass("warning");
@@ -27,9 +27,9 @@ $(document).ready(function() {
     });
   }
 
-  let check_phone_num = function(num) {
-    let partten = /^1[0-9]\d{9}$/;
-    let fl = false;
+  var check_phone_num = function(num) {
+    var partten = /^1[0-9]\d{9}$/;
+    var fl = false;
     if (partten.test(num)) {
       return true;
     } else {
@@ -37,7 +37,7 @@ $(document).ready(function() {
     }
   }
 
-  let count_down_btn = function(t) {
+  var count_down_btn = function(t) {
     if (t === 0) {
       $("#send-code").removeClass("disabled");
       $("#send-code").text("发送验证码");
@@ -49,7 +49,7 @@ $(document).ready(function() {
     }
   }
 
-  let send_msg_to = function(phone_num) {
+  var send_msg_to = function(phone_num) {
     $("#send-code").addClass("disabled");
 
     $.ajax({
@@ -71,8 +71,8 @@ $(document).ready(function() {
     });
   }
 
-  let check_form_valid = function() {
-    let msgs = [],
+  var check_form_valid = function() {
+    var msgs = [],
     phone_num = $("input[name='phone-num']").val();
     if(!$(".time.active").length) {
       msgs.push("请选择至少一个时段");
@@ -97,7 +97,7 @@ $(document).ready(function() {
   }
 
   $("#send-code").click(function() {
-    let msgs = [],
+    var msgs = [],
     phone_num = $("input[name='phone-num']").val();
     console.log(!phone_num.length);
     if (!phone_num.length) {
@@ -113,8 +113,8 @@ $(document).ready(function() {
 
   $("form.reservation input, form.reservation textarea").focusout(check_form_valid);
 
-  let send_reservation = function() {
-    let time_slot = [];
+  var send_reservation = function() {
+    var time_slot = [];
     $(".time.active").each(function(n, el) {
       time_slot.push($(el).text());
     });

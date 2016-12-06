@@ -21,3 +21,7 @@ html, body {
 .base.menu .item {
     font-size: 1.7rem;
 }
+
+.ui.message .list:not(.ui) li:before {
+    content: '*' !important;
+}
