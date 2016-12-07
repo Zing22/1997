@@ -92,6 +92,7 @@ class teacher(models.Model):
     class Meta:
         verbose_name = '教师'
         verbose_name_plural = '教师'
+        ordering = ['order']
 
 
     name = models.CharField(verbose_name = '姓名', max_length=265)
