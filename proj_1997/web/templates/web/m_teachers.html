@@ -66,15 +66,15 @@
     <div class="ui row right aligned">
       <div class="column">
         <div class="ui pagination menu">
-          <a class="item" href="/teachers?page={{now_page| add:-1}}">上一页</a>
+          <a class="item" href="/m/teachers?page={{now_page| add:-1}}">上一页</a>
           {% for item in page_nums %}
             {% if item == now_page %}
             <a class="disabled item">{{item}}</a>
             {% else %}
-            <a class="item" href="/teachers?page={{item}}">{{item}}</a>
+            <a class="item" href="/m/teachers?page={{item}}">{{item}}</a>
             {% endif %}
           {% endfor %}
-          <a class="item" href="/teachers?page={{now_page| add:1}}">下一页</a>
+          <a class="item" href="/m/teachers?page={{now_page| add:1}}">下一页</a>
         </div>
       </div>
     </div>

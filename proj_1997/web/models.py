@@ -61,7 +61,7 @@ class index_info(models.Model):
 
     subtitle = models.TextField(verbose_name = 'logo下文字', max_length=4096)
 
-    slider_delay = models.IntegerField(verbose_name = '滚动间隔时间(单位为毫秒)')
+    slider_delay = models.IntegerField(verbose_name = '轮播间隔时间(单位为毫秒)')
 
     def __str__(self):
         return "首页信息 <id: %d>" % self.id
@@ -69,8 +69,8 @@ class index_info(models.Model):
 
 class slider(models.Model):
     class Meta:
-        verbose_name = '首页滚动图'
-        verbose_name_plural = '首页滚动图'
+        verbose_name = '首页轮播图'
+        verbose_name_plural = '首页轮播图'
 
     image = models.ImageField(verbose_name = '轮播图片', upload_to='slider/', max_length=256)
 
@@ -85,7 +85,7 @@ class slider(models.Model):
     order = models.PositiveIntegerField(verbose_name = '轮播顺序(由0开始)')
 
     def __str__(self):
-        return "首页滚动图 <id: %d>" % self.id
+        return "首页轮播图 <id: %d>" % self.id
 
 
 class teacher(models.Model):
@@ -98,7 +98,7 @@ class teacher(models.Model):
 
     MALE = False
     FEMALE = True
-    gender = models.BooleanField(verbose_name = '性别', choices=((MALE,'Male'), (FEMALE,'Female')), default=MALE)
+    gender = models.BooleanField(verbose_name = '性别', choices=((MALE,'男'), (FEMALE,'女')), default=MALE)
 
     subject = models.CharField(verbose_name = '科目（空格分隔）', max_length=1024)
 
