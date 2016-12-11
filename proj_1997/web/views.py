@@ -170,7 +170,7 @@ def m_detail(request):
 
 def m_teachers(request):
     if request.flavour == 'full':
-        return redirect(teacher)
+        return redirect(teachers)
     ts = teacher.objects.all()
     info = [{'ts': t, 'slots': t.get_time_slot()} for t in ts]
     gender = request.GET.get('gender')
