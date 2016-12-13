@@ -38,10 +38,10 @@
 
     <div class="ui row teacher">
       <div class="column six wide">
-        <img class="ui image rounded fluid" src="{{ item.ts.avatar.url }}">
+        <a href="/m/detail?id={{ item.ts.id }}"><img class="ui image rounded fluid" src="{{ item.ts.avatar.url }}"></a>
       </div>
       <div class="column ten wide">
-        <h1 class="ui header my-font">{{ item.ts.name }}</h1>
+        <a href="/m/detail?id={{ item.ts.id }}"><h1 class="ui header my-font">{{ item.ts.name }}</h1></a>
         <div class="info">{{ item.ts.school }} · {{ item.ts.grade }} · {{ item.ts.college }}</div>
         <div class="info">{{ item.ts.subject }}</div>
         <h2 class="ui header my-font">时段:</h2>
@@ -66,15 +66,15 @@
     <div class="ui row right aligned">
       <div class="column">
         <div class="ui pagination menu">
-          <a class="item" href="/m/teachers?page={{now_page| add:-1}}">上一页</a>
+          <a class="item" href="/m/teachers?page={{now_page| add:-1}}&subject={{subject}}&gender={{gender}}">上一页</a>
           {% for item in page_nums %}
             {% if item == now_page %}
             <a class="disabled item">{{item}}</a>
             {% else %}
-            <a class="item" href="/m/teachers?page={{item}}">{{item}}</a>
+            <a class="item" href="/m/teachers?page={{item}}&subject={{subject}}&gender={{gender}}">{{item}}</a>
             {% endif %}
           {% endfor %}
-          <a class="item" href="/m/teachers?page={{now_page| add:1}}">下一页</a>
+          <a class="item" href="/m/teachers?page={{now_page| add:1}}&subject={{subject}}&gender={{gender}}">下一页</a>
         </div>
       </div>
     </div>

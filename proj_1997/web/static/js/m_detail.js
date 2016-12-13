@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  $(".base.menu .item.teachers").addClass("now");
   $(".time").click(function() {
     // $(".time.active").removeClass("active");
     $(this).toggleClass("active");
